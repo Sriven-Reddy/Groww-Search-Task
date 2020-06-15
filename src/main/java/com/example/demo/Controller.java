@@ -10,15 +10,11 @@ import java.util.List;
 @RequestMapping(value= "/")
 public class Controller {
 	
-//	@Autowired
-//	public EmployeeRepository search;
-	
 	@Autowired
 	public EmployeeService searchService;
 
     @GetMapping("/all")
     public Iterable<Employee> get_all_data() throws IOException {
-//      return searchService.findAll();
     	return searchService.findAllEmployees();
     }
 

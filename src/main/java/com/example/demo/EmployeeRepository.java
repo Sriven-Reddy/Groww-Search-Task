@@ -17,9 +17,5 @@ public interface EmployeeRepository extends ElasticsearchRepository<Employee, St
    Page<Employee> findByFirstnameAndSalary(String fname, String salary, Pageable pageable);
    Page<Employee> findByLastnameAndSalary(String lname, String salary, Pageable pageable);
    Page<Employee> findByFirstnameAndLastnameAndSalary(String fname, String lname, String salary, Pageable pageable);
-   
-
-//   @Query("{\"bool\": {\"must\": [{\"match\": {\"authors.name\": \"?0\"}}]}}")
-//   Page<Employee> findByFirstNameUsingCustomQuery(String name, Pageable pageable);
 
 }
