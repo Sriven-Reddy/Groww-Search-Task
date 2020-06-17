@@ -33,8 +33,8 @@ public class Employee {
     @Id
     private String id;
     
-    public void increasePopularity() {
-    	setPopularity(getPopularity() + 1);
+    public void increasePopularity(Integer x) {
+    	setPopularity(getPopularity() + x);
     }
 
 }

@@ -3,73 +3,56 @@ package com.example.demo;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.elasticsearch.index.query.BoolQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import org.springframework.data.elasticsearch.core.SearchHit;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 	
-    public EmployeeRepository search_service;
+	@Autowired
+    public EmployeeSearchHelper employeeSearchHelper;
 	
 	@Autowired
-    public void setEmployeeRepository(EmployeeRepository employeeRepository) {
-        this.search_service = employeeRepository;
-    }
+	public ElasticsearchOperations employeeSearch;
 	
 	public Iterable<Employee> findAllEmployees() {
 		
 		Sort sort = Sort.by("popularity").descending();
-    	Pageable pageable = PageRequest.of(0, 3, sort);
+    	Pageable pageable = PageRequest.of(0, 1000, sort);
 		
-		return search_service.findAll(pageable);		
+		return employeeSearchHelper.FindAllEmployeesHelper(pageable);		
 	}
 	
-	public List<Employee> Search(String fname, String lname, String salary) {
-		
-		BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery(); 
+	public List<Employee> Search(String fname, String lname, String salary) { 
 		
 		Sort sort = Sort.by("popularity").descending();
-    	Pageable pageable = PageRequest.of(0, 3, sort);
+    	Pageable pageable = PageRequest.of(0, 15, sort);
     	List<Employee> list = new ArrayList<Employee>();
-    	
-    	System.out.println(fname);
-    	System.out.println(lname);
-    	System.out.println(salary);
-    	
-    	if (!fname.equals("*"))
-    		boolQueryBuilder.must(QueryBuilders.matchQuery("firstname", fname));
-    	
-    	if (!lname.equals("*"))
-    		boolQueryBuilder.must(QueryBuilders.matchQuery("lastname", lname));
-    	
-    	if (!salary.equals("*"))
-    		boolQueryBuilder.must(QueryBuilders.matchQuery("salary", salary));
+    	List<SearchHit<Employee>> slist = new ArrayList<>();
     	
     	if (fname.equals("*") && lname.equals("*") && salary.equals("*")) {
-    		System.out.println("WRONG QUERY");
-    		search_service.findAll(pageable).forEach(list::add);
+    		employeeSearchHelper.FindAllEmployeesHelper(pageable).forEach(list::add);
     	}
     	else {
-    	
-	    	NativeSearchQueryBuilder nativeSearchQueryBuilder = new NativeSearchQueryBuilder();
-	    	nativeSearchQueryBuilder.withQuery(boolQueryBuilder);
-	    	nativeSearchQueryBuilder.withPageable(pageable);
-	    	NativeSearchQuery query = nativeSearchQueryBuilder.build();
+    		
+    		NativeSearchQuery query = employeeSearchHelper.SearchQueryBuilder(fname, lname, salary, pageable);
 	    	
-	    	list = search_service.search(query).getContent();
+	    	slist = employeeSearch.search(query, Employee.class).getSearchHits();
+	    	
+	    	for (SearchHit<Employee> emp : slist) {
+	    		Employee temp = emp.getContent(); 
+	    		list.add(temp);
+	    	}
+	    	
     	}
     	
-    	for (Employee employee : list) {
-    		employee.increasePopularity();
-    		search_service.save(employee);; 
-    	}
+    	employeeSearchHelper.UpdatePopularity(list);
     	
         return list;
     	
