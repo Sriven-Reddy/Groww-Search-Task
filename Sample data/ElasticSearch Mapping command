@@ -1,0 +1,41 @@
+curl -XPUT 'http://localhost:9200/test123?pretty' -H 'Content-Type: application/json' -d '{  "mappings": {              
+    "properties": { 
+      "firstname": {  
+        "type": "text"
+      },           
+      "lastname": {   
+        "type": "text"
+      },              
+      "designation": {
+        "type": "text"
+      },         
+      "salary": {        
+        "type": "integer"
+      },                
+      "dateofjoining": {
+        "type": "date",       
+        "format": "yyyy-MM-dd"
+      },          
+      "address": {    
+        "type": "text"
+      },         
+      "gender": {     
+        "type": "text"
+      },      
+      "age": {           
+        "type": "integer"
+      },                
+      "maritalstatus": {
+        "type": "text"
+      },      
+      "interests": {     
+        "type": "text" 
+      },  
+      "popularity": {     
+        "type": "integer" 
+      }                 
+    }                                                                                                             
+  }  
+}  
+'
+        
