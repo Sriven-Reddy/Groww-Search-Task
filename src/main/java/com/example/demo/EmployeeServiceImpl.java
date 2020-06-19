@@ -56,46 +56,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     	
         return list;
     	
-//    	else if (lname.equals("*") && salary.equals("*")) {
-//    		
-//    		System.out.println("FIRSTNAME ONLY");
-//    		list = search_service.findByFirstname(fname, pageable).getContent();
-//    	} 
-//    	else if (fname.equals("*") && salary.equals("*")) {
-//    		
-//    		System.out.println("LASTNAME ONLY");
-//    		list = search_service.findByLastname(lname, pageable).getContent();
-//    	} 
-//    	else if (lname.equals("*") && fname.equals("*")) {
-//    		
-//    		System.out.println("SALARY ONLY");
-//    		list = search_service.findBySalary(salary, pageable).getContent();
-//    	} 
-//    	else if (salary.equals("*")) {
-//    		
-//    		System.out.println("FIRST AND LAST NAME");
-//    		list = search_service.findByFirstnameAndLastname(fname, lname, pageable).getContent();
-//    	} 
-//    	else if (lname.equals("*")) {
-//    		
-//    		System.out.println("FIRSTNAME AND SALARY");
-//    		list = search_service.findByFirstnameAndSalary(fname, salary, pageable).getContent();
-//    	} 
-//    	else if (fname.equals("*")) {
-//    		
-//    		System.out.println("LASTNAME AND SALARY");
-//    		list = search_service.findByLastnameAndSalary(lname, salary, pageable).getContent();
-//    	} 
-//    	else if (!fname.equals("*") && !lname.equals("*") && !salary.equals("*")) {
-//    		
-//    		System.out.println("ALL THREE");
-//    		list = search_service.findByFirstnameAndLastnameAndSalary(fname, lname, salary, pageable).getContent();
-//    	} 
-//    	else {
-//    		throw new IllegalArgumentException("Search Failed!");
-//    	}
-//    	
-    	
 	}
 
 }

@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 
 public interface EmployeeSearchHelper {
 	
-	public Iterable<Employee> FindAllEmployeesHelper(Pageable pageable);
+	public Iterable<Employee> FindAllEmployeesHelper(Pageable pageable); 
 
 	public void UpdatePopularity(List<Employee> updationList);
 	
